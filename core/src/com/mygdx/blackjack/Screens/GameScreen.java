@@ -24,6 +24,7 @@ public class GameScreen implements Screen {
     final Blackjack game;
     final Stage stage;
     OrthographicCamera camera;
+    private int counter = 0;
     public GameScreen (final Blackjack game){
         this.game = game;
 
@@ -32,7 +33,7 @@ public class GameScreen implements Screen {
         camera.setToOrtho(false, 800, 480);
     }
 
-    public void addCard(){
+    public void addCard(int counter){
         Random rand = new Random();
         int suit = rand.nextInt(3);
         int number = rand.nextInt(12);
@@ -40,15 +41,17 @@ public class GameScreen implements Screen {
         Card card = new Card(suit, number);
 
         Image cardImage = card.getCardImage();
-        cardImage.setX(Gdx.graphics.getWidth() / 4f);
-        cardImage.setY(Gdx.graphics.getHeight() * 2f / 3f);
-        cardImage.setWidth(Gdx.graphics.getWidth() / 2f);
+        cardImage.setWidth(125);
+        cardImage.setHeight(182);
+        cardImage.setX(cardImage.getWidth() * 3 * counter / 2);
+        cardImage.setY(100);
+
         stage.addActor(cardImage);
     }
     @Override
     public void show() {
-        Texture addButtonTexture = new Texture("start.png");
-        Texture addButtonActiveTexture = new Texture("start_hover.png");
+        Texture addButtonTexture = new Texture("addCard.png");
+        Texture addButtonActiveTexture = new Texture("addCardActive.png");
         TextureRegion addButtonRegion = new TextureRegion(addButtonTexture);
         TextureRegionDrawable addButtonDraw = new TextureRegionDrawable(addButtonRegion);
         TextureRegion addButtonRegionActive = new TextureRegion(addButtonActiveTexture);
@@ -60,7 +63,8 @@ public class GameScreen implements Screen {
         addButton.addListener(new InputListener() {
             @Override
             public void touchUp(InputEvent ev, float x, float y, int pointer, int button) {
-               addCard();
+               addCard(counter);
+               counter += 1;
             }
 
             @Override
@@ -71,9 +75,42 @@ public class GameScreen implements Screen {
         });
 
         addButton.setPosition(
-                Gdx.graphics.getWidth() / 2f - addButton.getWidth() / 2f,
-                Gdx.graphics.getHeight() / 2f - addButton.getHeight() / 3f);
+                Gdx.graphics.getWidth() - addButton.getWidth(),
+                Gdx.graphics.getHeight() - addButton.getHeight());
         stage.addActor(addButton);
+
+        Texture exitTexture = new Texture("exit.png");
+        Texture exitTextureActive = new Texture("exit_hover.png");
+        TextureRegion exitRegion = new TextureRegion(exitTexture);
+        TextureRegion exitRegionActive = new TextureRegion(exitTextureActive);
+        TextureRegionDrawable exitDraw = new TextureRegionDrawable(exitRegion);
+        TextureRegionDrawable exitDrawActive = new TextureRegionDrawable(exitRegionActive);
+
+        ImageButton.ImageButtonStyle exitStyle = new ImageButton.ImageButtonStyle();
+        exitStyle.up = exitDraw;
+        exitStyle.over = exitDrawActive;
+
+        Actor exitButton = new ImageButton(exitStyle); //Set the button up
+
+        exitButton.addListener(new InputListener() {
+            @Override
+            public void touchUp(InputEvent ev, float x, float y, int pointer, int button) {
+                dispose();
+            }
+
+            @Override
+            public boolean touchDown(InputEvent ev, float x, float y, int pointer, int button) {
+                return true;
+            }
+
+        });
+
+        exitButton.setPosition(
+                Gdx.graphics.getWidth()  - exitButton.getWidth(),
+                Gdx.graphics.getHeight() / 5f - exitButton.getHeight());
+
+
+        stage.addActor(exitButton);
         Gdx.input.setInputProcessor(stage);
 
     }
@@ -85,7 +122,9 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        stage.dispose();
+        game.batch.dispose();
+        Gdx.app.exit();
     }
 
     @Override
