@@ -9,12 +9,11 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.*;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -51,7 +50,6 @@ public class MainMenuScreen implements Screen {
         game.batch.setProjectionMatrix(camera.combined);
 
         game.batch.begin();
-        game.font.draw(game.batch, "Blackjack", 100, 150);
         stage.act();
         stage.draw();
         game.batch.end();
@@ -63,6 +61,12 @@ public class MainMenuScreen implements Screen {
     @Override
     public void show() {
 
+        Texture titleTexture = new Texture("title.png");
+        Image title = new Image(titleTexture);
+        title.setAlign(Align.center);
+        title.setY(Gdx.graphics.getHeight() * 2f / 3f);
+        title.setWidth(Gdx.graphics.getWidth());
+        stage.addActor(title);
 
         playButtonTexture = new Texture("start.png");
         playButtonActiveTexture = new Texture("start_hover.png");
@@ -78,11 +82,6 @@ public class MainMenuScreen implements Screen {
 
 
 
-
-        stage.addActor(playButton);
-        Gdx.input.setInputProcessor(stage);
-
-
         playButton.addListener(new InputListener() {
             @Override
             public void touchUp(InputEvent ev, float x, float y, int pointer, int button) {
@@ -94,9 +93,47 @@ public class MainMenuScreen implements Screen {
                 return true;
             }
 
-
         });
 
+
+
+        Texture exitTexture = new Texture("exit.png");
+        Texture exitTextureActive = new Texture("exit_hover.png");
+        TextureRegion exitRegion = new TextureRegion(exitTexture);
+        TextureRegion exitRegionActive = new TextureRegion(exitTextureActive);
+        TextureRegionDrawable exitDraw = new TextureRegionDrawable(exitRegion);
+        TextureRegionDrawable exitDrawActive = new TextureRegionDrawable(exitRegionActive);
+
+        ImageButton.ImageButtonStyle exitStyle = new ImageButton.ImageButtonStyle();
+        exitStyle.up = exitDraw;
+        exitStyle.over = exitDrawActive;
+
+        Actor exitButton = new ImageButton(exitStyle); //Set the button up
+
+        exitButton.addListener(new InputListener() {
+            @Override
+            public void touchUp(InputEvent ev, float x, float y, int pointer, int button) {
+                dispose();
+            }
+
+            @Override
+            public boolean touchDown(InputEvent ev, float x, float y, int pointer, int button) {
+                return true;
+            }
+
+        });
+       // playButton.setWidth(Gdx.graphics.getWidth() / 2f);
+        playButton.setPosition(
+                Gdx.graphics.getWidth() / 2f - playButton.getWidth() / 2f,
+                Gdx.graphics.getHeight() / 2f - playButton.getHeight() / 3f);
+
+      //  exitButton.setWidth(Gdx.graphics.getWidth() / 2f);
+        exitButton.setPosition(
+                Gdx.graphics.getWidth() / 2f - exitButton.getWidth() / 2f,
+                Gdx.graphics.getHeight() / 4f - exitButton.getHeight() / 2f);
+        stage.addActor(playButton);
+        stage.addActor(exitButton);
+        Gdx.input.setInputProcessor(stage);
 
     }
 
@@ -107,7 +144,9 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        stage.dispose();
+        game.batch.dispose();
+        Gdx.app.exit();
     }
 
     @Override
