@@ -63,9 +63,10 @@ public class MainMenuScreen implements Screen {
 
         Texture titleTexture = new Texture("title.png");
         Image title = new Image(titleTexture);
-        title.setAlign(Align.center);
+        //title.setAlign(Align.center);
+        title.setX(Gdx.graphics.getWidth() / 4f);
         title.setY(Gdx.graphics.getHeight() * 2f / 3f);
-        title.setWidth(Gdx.graphics.getWidth());
+        title.setWidth(Gdx.graphics.getWidth() / 2f);
         stage.addActor(title);
 
         playButtonTexture = new Texture("start.png");
