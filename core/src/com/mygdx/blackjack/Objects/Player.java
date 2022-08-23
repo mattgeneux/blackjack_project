@@ -42,5 +42,13 @@ public class Player {
         return this.deck;
     }
 
+    public int getTotal(){
+        int total = 0;
+        for (Card card : getDeck()){
+            total += card.getValue();
+        }
+        return total;
+    }
+
 
 }

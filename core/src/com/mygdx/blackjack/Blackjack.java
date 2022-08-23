@@ -11,6 +11,8 @@ public class Blackjack extends Game {
 
 	public SpriteBatch batch;
 	public BitmapFont font;
+	public int p1Score;
+	public int p2Score;
 
 	public void create() {
 		batch = new SpriteBatch();
