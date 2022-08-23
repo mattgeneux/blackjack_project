@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mygdx.blackjack.Objects.Player;
 import com.mygdx.blackjack.Screens.MainMenuScreen;
 
 
@@ -13,6 +14,8 @@ public class Blackjack extends Game {
 	public BitmapFont font;
 	public int p1Score;
 	public int p2Score;
+	public Player p1;
+	public Player p2;
 
 	public void create() {
 		batch = new SpriteBatch();

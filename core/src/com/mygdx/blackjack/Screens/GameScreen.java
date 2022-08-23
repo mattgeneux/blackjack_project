@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.blackjack.Blackjack;
+import com.mygdx.blackjack.Functions.Utilities;
 import com.mygdx.blackjack.Objects.Card;
 import com.mygdx.blackjack.Objects.Player;
 
@@ -30,8 +31,7 @@ public class GameScreen implements Screen {
     OrthographicCamera camera;
     private int counter = 0;
     public List<int[]> picked;
-    public Player p1;
-    public Player p2;
+
     public boolean gameover = false;
 
     enum Turn{
@@ -47,11 +47,12 @@ public class GameScreen implements Screen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 480);
         picked = new ArrayList<>();
-        p1 = new Player(picked);
-        p2 = new Player(picked);
-        setup(p1, p2);
+
+        game.p1 = new Player(picked);
+        game.p2 = new Player(picked);
+        setup(game.p1, game.p2);
         turn = Turn.PLAYER;
-        playerLoop(p1);
+        playerLoop(game.p1);
 
 
     }
@@ -68,9 +69,9 @@ public class GameScreen implements Screen {
         }
         else{
 
-            System.out.println("gameover" + p1.getTotal() + p2.getTotal());
+            System.out.println("gameover" + p1.getTotal() + game.p2.getTotal());
             game.p1Score = p1.getTotal();
-            game.p2Score = p2.getTotal();
+            game.p2Score = game.p2.getTotal();
 
 
         }
@@ -91,48 +92,15 @@ public class GameScreen implements Screen {
 
             }
             else{
-                try{
-                    Thread.sleep(2000);
-                }catch(InterruptedException ex){
-                    //do stuff
-                }
+
                 gameover = true;
-                System.out.println("gameover" + p1.getTotal() + p2.getTotal());
+                System.out.println("gameover" + game.p1.getTotal() + p2.getTotal());
 
             }
         }
-        game.p1Score = p1.getTotal();
+        game.p1Score = game.p1.getTotal();
         game.p2Score = p2.getTotal();
 
-    }
-
-
-    public void setup1(Player p1, Player p2){
-
-        List<Card> p1Deck = p1.getDeck();
-        int counter = p1Deck.size() - 2;
-        for (Card card : p1Deck){
-            Image cardImage = card.getCardImage();
-            cardImage.setWidth(125);
-            cardImage.setHeight(182);
-            cardImage.setX(cardImage.getWidth() * 3 * counter / 2);
-            cardImage.setY(100);
-            stage.addActor(cardImage);
-            counter++;
-        }
-
-
-        List<Card> p2Deck = p2.getDeck();
-        counter = p2Deck.size() - 2;
-        for (Card card : p2Deck){
-            Image cardImage = card.getCardImage();
-            cardImage.setWidth(125);
-            cardImage.setHeight(182);
-            cardImage.setX(cardImage.getWidth() * 3 * counter / 2);
-            cardImage.setY(400);
-            stage.addActor(cardImage);
-            counter++;
-        }
     }
 
     public void setup(Player p1, Player p2){
@@ -158,73 +126,24 @@ public class GameScreen implements Screen {
             counter++;
         }
     }
-    public void addCard1(int counter){
-        Random rand = new Random();
-        int suit = rand.nextInt(3);
-        int number = rand.nextInt(12);
-
-        Card card = new Card(suit, number);
-
-        Image cardImage = card.getCardImage();
-        cardImage.setWidth(125);
-        cardImage.setHeight(182);
-        cardImage.setX(cardImage.getWidth() * 3 * counter / 2);
-        cardImage.setY(100);
-
-        stage.addActor(cardImage);
-    }
-
     public void addCard(){
-        p1.addCard(picked);
-        displayDeck(p1, false);
-        playerLoop(p1);
-    }
-
-    public void endGame(Stage stage){
-        String winner = "";
-        if (p1.getTotal() < 21){
-            if (p2.getTotal() > 21){
-                winner = "player";
-            } else if (p2.getTotal() < p1.getTotal()) {
-
-                winner = "player";
-            }
-
-        } else if (p2.getTotal() > 21) {
-            winner = "no one";
-
-        }
-        else{
-            winner = "dealer";
-        }
-        String labelText = ("The winner is " + winner + "\nplayer score = " + p1.getTotal()
-                + "\n dealer score is " + p2.getTotal());
-        Label.LabelStyle style = new Label.LabelStyle();
-        //style.font = new BitmapFont(Gdx.files.internal("MachineScript.ttf"));
-        Label result = new Label(labelText, style);
-        stage.addActor(result);
+        game.p1.addCard(picked);
+        displayDeck(game.p1, false);
+        playerLoop(game.p1);
     }
 
 
     @Override
     public void show() {
-        Texture addButtonTexture = new Texture("addCard.png");
-        Texture addButtonActiveTexture = new Texture("addCardActive.png");
-        TextureRegion addButtonRegion = new TextureRegion(addButtonTexture);
-        TextureRegionDrawable addButtonDraw = new TextureRegionDrawable(addButtonRegion);
-        TextureRegion addButtonRegionActive = new TextureRegion(addButtonActiveTexture);
-        TextureRegionDrawable  addButtonDrawActive = new TextureRegionDrawable(addButtonRegionActive);
-        ImageButton.ImageButtonStyle addStyle = new ImageButton.ImageButtonStyle();
-        addStyle.up = addButtonDraw;
-        addStyle.over = addButtonDrawActive;
-        Actor addButton = new ImageButton(addStyle); //Set the button up
+
+        Actor addButton = Utilities.createButton("addCard.png", "addCardActive.png");
         addButton.addListener(new InputListener() {
             @Override
             public void touchUp(InputEvent ev, float x, float y, int pointer, int button) {
               // addCard(counter);
               // counter += 1;
                 addCard();
-                playerLoop(p1);
+                playerLoop(game.p1);
             }
 
             @Override
@@ -239,18 +158,7 @@ public class GameScreen implements Screen {
                 Gdx.graphics.getHeight() - addButton.getHeight());
         stage.addActor(addButton);
 
-        Texture exitTexture = new Texture("exit.png");
-        Texture exitTextureActive = new Texture("exit_hover.png");
-        TextureRegion exitRegion = new TextureRegion(exitTexture);
-        TextureRegion exitRegionActive = new TextureRegion(exitTextureActive);
-        TextureRegionDrawable exitDraw = new TextureRegionDrawable(exitRegion);
-        TextureRegionDrawable exitDrawActive = new TextureRegionDrawable(exitRegionActive);
-
-        ImageButton.ImageButtonStyle exitStyle = new ImageButton.ImageButtonStyle();
-        exitStyle.up = exitDraw;
-        exitStyle.over = exitDrawActive;
-
-        Actor exitButton = new ImageButton(exitStyle); //Set the button up
+        Actor exitButton = Utilities.createButton("exit.png", "exit_hover.png"); //Set the button up
 
         exitButton.addListener(new InputListener() {
             @Override
@@ -273,22 +181,14 @@ public class GameScreen implements Screen {
 
         stage.addActor(exitButton);
 
-        Texture changeTexture = new Texture("exit.png");
-        Texture changeTextureActive = new Texture("exit_hover.png");
-        TextureRegion changeRegion = new TextureRegion(changeTexture);
-        TextureRegion changeRegionActive = new TextureRegion(changeTextureActive);
-        TextureRegionDrawable changeDraw = new TextureRegionDrawable(changeRegion);
-        TextureRegionDrawable changeDrawActive = new TextureRegionDrawable(changeRegionActive);
-        ImageButton.ImageButtonStyle changeStyle = new ImageButton.ImageButtonStyle();
-        changeStyle.up = changeDraw;
-        changeStyle.over = changeDrawActive;
-        Actor changeButton = new ImageButton(changeStyle); //Set the button up
+
+        Actor changeButton = Utilities.createButton("stay.png", "stay_hover.png"); //Set the button up
         changeButton.addListener(new InputListener() {
             @Override
             public void touchUp(InputEvent ev, float x, float y, int pointer, int button) {
 
                turn = Turn.DEALER;
-               dealerLoop(p2);
+               dealerLoop(game.p2);
             }
 
             @Override

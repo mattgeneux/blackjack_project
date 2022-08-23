@@ -54,7 +54,7 @@ public class Card {
     private void setValue(Number number) {
         switch (number){
             case ace:
-                this.value = 1;
+                this.value = 11;
                 break;
             case two:
                 this.value = 2;
