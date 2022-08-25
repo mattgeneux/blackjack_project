@@ -3,17 +3,13 @@ package com.mygdx.blackjack.Screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.blackjack.Blackjack;
@@ -57,27 +53,36 @@ public class EndScreen implements Screen {
     }
     @Override
     public void show() {
-        String winner = "";
-        if (game.p1Score < 21){
-            if (game.p2Score > 21){
-                winner = "player";
-            } else if (game.p2Score < game.p1Score) {
-
-                winner = "player";
+        String endMessage = "";
+        if (game.p1.getTotal() > 21) {
+            endMessage = "You bust!";
+        }
+        else if (game.p1.getTotal() == 21){
+            if (game.p1.getDeck().size() == 2){
+            endMessage = "Blackjack!";
             }
+        } else if (game.p2.getTotal() > 21) {
+            endMessage = "Dealer bust!";
 
-        } else if (game.p2Score > 21) {
-            winner = "no one";
+        } else if (game.p1.getTotal() > game.p2.getTotal()) {
+            endMessage = "You win!";
 
+        }
+        else if (game.p1.getTotal() == game.p2.getTotal()){
+            endMessage = "Draw!";
         }
         else{
-            winner = "dealer";
+            endMessage = "You lose!";
         }
-        String labelText = ("The winner is " + winner + "\nplayer score = " + game.p1Score
-                + "\n dealer score is " + game.p2Score);
+        String labelText = (endMessage + "  Player score = " + game.p1.getTotal()
+                + " Dealer score = " + game.p2.getTotal());
         Label.LabelStyle style = new Label.LabelStyle();
         style.font = new BitmapFont();
         Label result = new Label(labelText, style);
+        result.setFontScale(2.0f);
+
+        result.setX(stage.getWidth() - 2.1f * result.getWidth());
+        result.setY(stage.getHeight() - 1.5f * result.getHeight());
         stage.addActor(result);
 
         displayDeck(game.p1, false);

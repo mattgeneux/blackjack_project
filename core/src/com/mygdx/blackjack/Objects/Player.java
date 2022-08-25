@@ -1,8 +1,7 @@
 package com.mygdx.blackjack.Objects;
 
 
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import jdk.internal.net.http.common.Pair;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,9 +42,23 @@ public class Player {
     }
 
     public int getTotal(){
+        boolean ace = false;
         int total = 0;
         for (Card card : getDeck()){
             total += card.getValue();
+        }
+        if (total > 21){
+            for (Card card : getDeck()){
+                if (card.getValue() == 11){
+                    card.setValue(1);
+                    ace = true;
+                    break;
+                }
+            }
+            if (ace){
+                return getTotal();
+            }
+
         }
         return total;
     }

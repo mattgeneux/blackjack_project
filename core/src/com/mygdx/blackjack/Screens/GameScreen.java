@@ -50,10 +50,9 @@ public class GameScreen implements Screen {
 
         game.p1 = new Player(picked);
         game.p2 = new Player(picked);
-        setup(game.p1, game.p2);
         turn = Turn.PLAYER;
+        setup(game.p1, game.p2);
         playerLoop(game.p1);
-
 
     }
 
@@ -112,19 +111,29 @@ public class GameScreen implements Screen {
         int counter = 0;
         for (Card card : pDeck){
             Image cardImage = card.getCardImage();
+
+            if (dealer) {
+                if (counter == 0) {
+                    if (turn == turn.PLAYER) {
+                        Texture backTexture = new Texture("card_back.png");
+                        cardImage = new Image(backTexture);
+                    }
+
+                }
+                cardImage.setY(400);
+            }
+              else{
+                cardImage.setY(100);
+            }
             cardImage.setWidth(125);
             cardImage.setHeight(182);
             cardImage.setX(cardImage.getWidth() * 3 * counter / 2);
-            if (dealer){
-                cardImage.setY(400);
-            }
-            else{
-                cardImage.setY(100);
-            }
-
             stage.addActor(cardImage);
             counter++;
         }
+
+
+
     }
     public void addCard(){
         game.p1.addCard(picked);

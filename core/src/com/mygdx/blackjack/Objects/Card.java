@@ -90,6 +90,11 @@ public class Card {
         return this.value;
     }
 
+    public void setValue(int value){
+        // for use when changing an ace from 11 to 1
+        this.value = value;
+    }
+
     private void setCardTexture(Suit suit, Number number){
         String suitName = "spades";
         String numName = "ace";
