@@ -207,7 +207,7 @@ public class GameScreen implements Screen {
 
         changeButton.setPosition(
                 Gdx.graphics.getWidth()  - changeButton.getWidth(),
-                Gdx.graphics.getHeight() / 2f - changeButton.getHeight());
+                Gdx.graphics.getHeight() / 3f + 0.4f* changeButton.getHeight());
 
 
         stage.addActor(changeButton);

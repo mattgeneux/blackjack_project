@@ -81,7 +81,7 @@ public class EndScreen implements Screen {
         Label result = new Label(labelText, style);
         result.setFontScale(2.0f);
 
-        result.setX(stage.getWidth() - 2.1f * result.getWidth());
+        result.setX(0);
         result.setY(stage.getHeight() - 1.5f * result.getHeight());
         stage.addActor(result);
 
@@ -126,7 +126,7 @@ public class EndScreen implements Screen {
         });
         menuButton.setPosition(
                 Gdx.graphics.getWidth()  - exitButton.getWidth(),
-                Gdx.graphics.getHeight() / 3f - exitButton.getHeight());
+                Gdx.graphics.getHeight() / 3f);
 
         stage.addActor(menuButton);
 
@@ -146,7 +146,7 @@ public class EndScreen implements Screen {
         });
         resetButton.setPosition(
                 Gdx.graphics.getWidth()  - resetButton.getWidth(),
-                Gdx.graphics.getHeight() / 2f - resetButton.getHeight());
+                Gdx.graphics.getHeight()  - resetButton.getHeight());
 
         stage.addActor(resetButton);
 
