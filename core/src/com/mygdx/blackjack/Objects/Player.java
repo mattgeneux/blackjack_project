@@ -4,30 +4,33 @@ package com.mygdx.blackjack.Objects;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
 public class Player {
-    private List<Card> deck;
+    private final List<Card> deck;
 
-    public Player(List<int[]> picked){
+    public Player(List<List<Integer>> picked){
         deck = new ArrayList<>();
         for (int i = 0; i<2; i++){
             addCard(picked);
         }
     }
 
-    public void addCard(List<int[]> picked){
+    public void addCard(List<List <Integer>> picked){
         Random rand = new Random();
         int suit = rand.nextInt(3);
         int number = rand.nextInt(12);
-        int[] item  = new int[] {suit, number};
+        // int[] item  = new int[] {suit, number};
+        List <Integer> item = Arrays.asList(suit, number);
 
         while (picked.contains(item))
         {
             suit = rand.nextInt(3);
             number = rand.nextInt(12);
-            item  = new int[] {suit, number};
+            // item  = new int[] {suit, number};
+            item = Arrays.asList(suit, number);
         }
 
         Card card = new Card(suit, number);

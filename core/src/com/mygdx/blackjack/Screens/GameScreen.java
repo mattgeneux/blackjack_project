@@ -1,19 +1,17 @@
 package com.mygdx.blackjack.Screens;
 
-import com.badlogic.gdx.Game;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.blackjack.Blackjack;
@@ -23,14 +21,14 @@ import com.mygdx.blackjack.Objects.Player;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
+
 
 public class GameScreen implements Screen {
     final Blackjack game;
     final Stage stage;
     OrthographicCamera camera;
-    private int counter = 0;
-    public List<int[]> picked;
+
+    public List<List<Integer>> picked;
 
     public boolean gameover = false;
 
@@ -57,7 +55,7 @@ public class GameScreen implements Screen {
     }
 
     public void playerLoop(Player p1){
-        if (gameover == false) {
+        if (!gameover) {
             // player turn
             if (turn == Turn.PLAYER){
                 if (p1.getTotal() >= 21){
@@ -78,7 +76,7 @@ public class GameScreen implements Screen {
 
     public void dealerLoop(Player p2){
         // dealer turn
-        while (gameover == false){
+        while (!gameover){
             if  (p2.getTotal() < 16){
                 p2.addCard(picked);
                 displayDeck(p2, true);
@@ -247,7 +245,7 @@ public class GameScreen implements Screen {
         stage.draw();
         game.batch.end();
 
-        if (gameover == true){
+        if (gameover){
 
             game.setScreen(new EndScreen(game));
         }
