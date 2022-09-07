@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -62,6 +63,9 @@ public class EndScreen implements Screen {
             if (game.p1.getDeck().size() == 2){
             endMessage = "Blackjack!";
             }
+            else{
+                endMessage="21! You win!";
+            }
         } else if (game.p2.getTotal() > 21) {
             endMessage = "Dealer bust!";
 
@@ -85,6 +89,8 @@ public class EndScreen implements Screen {
         result.setX(0);
         result.setY(stage.getHeight() - 1.5f * result.getHeight());
         stage.addActor(result);
+        result.getColor().a=0;
+        result.addAction(Actions.fadeIn(1.5f));
 
         displayDeck(game.p1, false);
         displayDeck(game.p2, true);

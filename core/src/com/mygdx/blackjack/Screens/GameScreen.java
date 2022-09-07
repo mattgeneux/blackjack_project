@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -32,6 +33,7 @@ public class GameScreen implements Screen {
     public List<List<Integer>> picked;
 
     public boolean gameover = false;
+    public int round = 0;
 
     enum Turn{
         PLAYER,
@@ -122,6 +124,14 @@ public class GameScreen implements Screen {
             cardImage.setHeight(182);
             cardImage.setX(cardImage.getWidth() * 3 * counter / 2);
             stage.addActor(cardImage);
+            if (round > 0){
+              if (counter==pDeck.size()-1){
+                  cardImage.getColor().a=0;
+                  cardImage.addAction(Actions.fadeIn(1f));
+              }
+            }
+
+
             counter++;
         }
 
@@ -144,6 +154,7 @@ public class GameScreen implements Screen {
             public void touchUp(InputEvent ev, float x, float y, int pointer, int button) {
               // addCard(counter);
               // counter += 1;
+                round++;
                 addCard();
                 playerLoop(game.p1);
             }
@@ -188,7 +199,7 @@ public class GameScreen implements Screen {
         changeButton.addListener(new InputListener() {
             @Override
             public void touchUp(InputEvent ev, float x, float y, int pointer, int button) {
-
+                round++;
                turn = Turn.DEALER;
                dealerLoop(game.p2);
             }
