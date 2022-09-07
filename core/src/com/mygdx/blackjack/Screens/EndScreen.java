@@ -90,7 +90,7 @@ public class EndScreen implements Screen {
         result.setY(stage.getHeight() - 1.5f * result.getHeight());
         stage.addActor(result);
         result.getColor().a=0;
-        result.addAction(Actions.fadeIn(1.5f));
+        result.addAction(Actions.fadeIn(0.75f));
 
         displayDeck(game.p1, false);
         displayDeck(game.p2, true);
@@ -161,9 +161,9 @@ public class EndScreen implements Screen {
         //table.setFillParent(true);
         stage.addActor(table);
         table.setPosition(0.85f*Gdx.graphics.getWidth(), 0.5f*Gdx.graphics.getHeight());
-        table.add(menuButton);
-        table.row().padTop(100);
         table.add(resetButton);
+        table.row().padTop(100);
+        table.add(menuButton);
         table.row().padTop(100);
         table.add(exitButton);
 

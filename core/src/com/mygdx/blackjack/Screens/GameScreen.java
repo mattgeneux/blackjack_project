@@ -53,7 +53,13 @@ public class GameScreen implements Screen {
         game.p2 = new Player(picked);
         turn = Turn.PLAYER;
         setup(game.p1, game.p2);
-        playerLoop(game.p1);
+        if (game.p2.getTotal() == 21){
+            gameover = true;
+        }
+        else{
+            playerLoop(game.p1);
+        }
+
 
     }
 
@@ -127,7 +133,7 @@ public class GameScreen implements Screen {
             if (round > 0){
               if (counter==pDeck.size()-1){
                   cardImage.getColor().a=0;
-                  cardImage.addAction(Actions.fadeIn(1f));
+                  cardImage.addAction(Actions.fadeIn(0.5f));
               }
             }
 
