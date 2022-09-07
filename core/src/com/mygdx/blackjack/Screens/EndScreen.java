@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.blackjack.Blackjack;
@@ -104,11 +105,12 @@ public class EndScreen implements Screen {
             }
 
         });
-        exitButton.setPosition(
-                Gdx.graphics.getWidth()  - exitButton.getWidth(),
-                Gdx.graphics.getHeight() / 5f - exitButton.getHeight());
+       // exitButton.setPosition(
+       //         Gdx.graphics.getWidth()  - exitButton.getWidth(),
+       //         Gdx.graphics.getHeight() / 5f - exitButton.getHeight());
 
-        stage.addActor(exitButton);
+       //
+        // ##]]]]]]stage.addActor(exitButton);
 
         Actor menuButton = Utilities.createButton("menu.png", "menu_hover.png");
         menuButton.addListener(new InputListener() {
@@ -124,12 +126,11 @@ public class EndScreen implements Screen {
             }
 
         });
-        menuButton.setPosition(
-                Gdx.graphics.getWidth()  - exitButton.getWidth(),
-                Gdx.graphics.getHeight() / 3f);
+       // menuButton.setPosition(
+       //         Gdx.graphics.getWidth()  - exitButton.getWidth(),
+       //         Gdx.graphics.getHeight() / 3f);
 
-        stage.addActor(menuButton);
-
+       // stage.addActor(menuButton);
         Actor resetButton = Utilities.createButton("reset.png", "reset_hover.png");
         resetButton.addListener(new InputListener() {
             @Override
@@ -144,13 +145,21 @@ public class EndScreen implements Screen {
             }
 
         });
-        resetButton.setPosition(
-                Gdx.graphics.getWidth()  - resetButton.getWidth(),
-                Gdx.graphics.getHeight()  - resetButton.getHeight());
+       // resetButton.setPosition(
+       //         Gdx.graphics.getWidth()  - resetButton.getWidth(),
+       //         Gdx.graphics.getHeight()  - resetButton.getHeight());
 
-        stage.addActor(resetButton);
+       // stage.addActor(resetButton);
 
-
+        Table table = new Table();
+        //table.setFillParent(true);
+        stage.addActor(table);
+        table.setPosition(0.85f*Gdx.graphics.getWidth(), 0.5f*Gdx.graphics.getHeight());
+        table.add(menuButton);
+        table.row().padTop(100);
+        table.add(resetButton);
+        table.row().padTop(100);
+        table.add(exitButton);
 
         Gdx.input.setInputProcessor(stage);
 

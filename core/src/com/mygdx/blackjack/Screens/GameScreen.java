@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.blackjack.Blackjack;
@@ -77,7 +78,7 @@ public class GameScreen implements Screen {
     public void dealerLoop(Player p2){
         // dealer turn
         while (!gameover){
-            if  (p2.getTotal() < 16){
+            if  (p2.getTotal() < 17){
                 p2.addCard(picked);
                 displayDeck(p2, true);
                 try{
@@ -160,10 +161,10 @@ public class GameScreen implements Screen {
 
         });
 
-        addButton.setPosition(
-                Gdx.graphics.getWidth() - addButton.getWidth(),
-                Gdx.graphics.getHeight() - addButton.getHeight());
-        stage.addActor(addButton);
+       // addButton.setPosition(
+       //         Gdx.graphics.getWidth() - addButton.getWidth(),
+       //         Gdx.graphics.getHeight() - addButton.getHeight());
+       // stage.addActor(addButton);
 
         Actor exitButton = Utilities.createButton("exit.png", "exit_hover.png"); //Set the button up
 
@@ -181,12 +182,12 @@ public class GameScreen implements Screen {
 
         });
 
-        exitButton.setPosition(
-                Gdx.graphics.getWidth()  - exitButton.getWidth(),
-                Gdx.graphics.getHeight() / 5f - exitButton.getHeight());
+     //   exitButton.setPosition(
+     //           Gdx.graphics.getWidth()  - exitButton.getWidth(),
+     //           Gdx.graphics.getHeight() / 5f - exitButton.getHeight());
 
 
-        stage.addActor(exitButton);
+     //   stage.addActor(exitButton);
 
 
         Actor changeButton = Utilities.createButton("stay.png", "stay_hover.png"); //Set the button up
@@ -205,12 +206,21 @@ public class GameScreen implements Screen {
 
         });
 
-        changeButton.setPosition(
-                Gdx.graphics.getWidth()  - changeButton.getWidth(),
-                Gdx.graphics.getHeight() / 3f + 0.4f* changeButton.getHeight());
+      //  changeButton.setPosition(
+      //          Gdx.graphics.getWidth()  - changeButton.getWidth(),
+      //          Gdx.graphics.getHeight() / 3f + 0.4f* changeButton.getHeight());
 
 
-        stage.addActor(changeButton);
+      //  stage.addActor(changeButton);
+        Table table = new Table();
+        //table.setFillParent(true);
+        stage.addActor(table);
+        table.setPosition(0.85f*Gdx.graphics.getWidth(), 0.5f*Gdx.graphics.getHeight());
+        table.add(addButton);
+        table.row().padTop(100);
+        table.add(changeButton);
+        table.row().padTop(100);
+        table.add(exitButton);
 
         Gdx.input.setInputProcessor(stage);
 

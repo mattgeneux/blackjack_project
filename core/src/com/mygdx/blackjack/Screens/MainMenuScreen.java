@@ -4,28 +4,21 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.mygdx.blackjack.Blackjack;
-import com.mygdx.blackjack.Screens.GameScreen;
+import com.mygdx.blackjack.Functions.Utilities;
+
 
 public class MainMenuScreen implements Screen {
 
     final Blackjack game;
     final Stage stage;
     OrthographicCamera camera;
-    Texture playButtonTexture;
-    Texture playButtonActiveTexture;
-    TextureRegion playButtonRegion;
-    TextureRegionDrawable playButtonDraw;
-    Actor playButton;
-    ImageButton.ImageButtonStyle playStyle;
+
     public MainMenuScreen(final Blackjack game) {
         this.game = game;
 
@@ -64,17 +57,10 @@ public class MainMenuScreen implements Screen {
         title.setWidth(Gdx.graphics.getWidth() / 2f);
         stage.addActor(title);
 
-        playButtonTexture = new Texture("start.png");
-        playButtonActiveTexture = new Texture("start_hover.png");
-        playButtonRegion = new TextureRegion(playButtonTexture);
-        playButtonDraw = new TextureRegionDrawable(playButtonRegion);
-        TextureRegion playButtonRegionActive = new TextureRegion(playButtonActiveTexture);
-        TextureRegionDrawable  playButtonDrawActive = new TextureRegionDrawable(playButtonRegionActive);
-        playStyle = new ImageButton.ImageButtonStyle();
-        playStyle.up = playButtonDraw;
-        playStyle.over = playButtonDrawActive;
 
-        playButton = new ImageButton(playStyle); //Set the button up
+
+        Actor playButton = Utilities.createButton("start.png", "start_hover.png");
+        //playButton = new ImageButton(playStyle); //Set the button up
 
 
 
@@ -93,18 +79,7 @@ public class MainMenuScreen implements Screen {
 
 
 
-        Texture exitTexture = new Texture("exit.png");
-        Texture exitTextureActive = new Texture("exit_hover.png");
-        TextureRegion exitRegion = new TextureRegion(exitTexture);
-        TextureRegion exitRegionActive = new TextureRegion(exitTextureActive);
-        TextureRegionDrawable exitDraw = new TextureRegionDrawable(exitRegion);
-        TextureRegionDrawable exitDrawActive = new TextureRegionDrawable(exitRegionActive);
-
-        ImageButton.ImageButtonStyle exitStyle = new ImageButton.ImageButtonStyle();
-        exitStyle.up = exitDraw;
-        exitStyle.over = exitDrawActive;
-
-        Actor exitButton = new ImageButton(exitStyle); //Set the button up
+        Actor exitButton = Utilities.createButton("exit.png", "exit_hover.png");
 
         exitButton.addListener(new InputListener() {
             @Override
@@ -119,16 +94,23 @@ public class MainMenuScreen implements Screen {
 
         });
        // playButton.setWidth(Gdx.graphics.getWidth() / 2f);
-        playButton.setPosition(
-                Gdx.graphics.getWidth() / 2f - playButton.getWidth() / 2f,
-                Gdx.graphics.getHeight() / 2f - playButton.getHeight() / 3f);
+       // playButton.setPosition(
+       //         Gdx.graphics.getWidth() / 2f - playButton.getWidth() / 2f,
+       //         Gdx.graphics.getHeight() / 2f - playButton.getHeight() / 3f);
 
       //  exitButton.setWidth(Gdx.graphics.getWidth() / 2f);
-        exitButton.setPosition(
-                Gdx.graphics.getWidth() / 2f - exitButton.getWidth() / 2f,
-                Gdx.graphics.getHeight() / 4f - exitButton.getHeight() / 2f);
-        stage.addActor(playButton);
-        stage.addActor(exitButton);
+      //  exitButton.setPosition(
+      //          Gdx.graphics.getWidth() / 2f - exitButton.getWidth() / 2f,
+      //          Gdx.graphics.getHeight() / 4f - exitButton.getHeight() / 2f);
+      //  stage.addActor(playButton);
+      //  stage.addActor(exitButton);
+        Table table = new Table();
+        table.setFillParent(true);
+        stage.addActor(table);
+        table.padTop(100);
+        table.add(playButton);
+        table.row().padTop(10);
+        table.add(exitButton);
         Gdx.input.setInputProcessor(stage);
 
     }
