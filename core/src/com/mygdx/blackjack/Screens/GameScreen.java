@@ -81,12 +81,6 @@ public class GameScreen implements Screen {
             if  (p2.getTotal() < 17){
                 p2.addCard(picked);
                 displayDeck(p2, true);
-                try{
-
-                    Thread.sleep(200);
-                }catch(InterruptedException ex){
-                    //do stuff
-                }
 
             }
             else{
